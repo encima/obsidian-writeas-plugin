@@ -1,11 +1,10 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "writeas-publisher",
+	"name": "Writeas Blog Publisher",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "This is a sample plugin for Obsidian. This plugin demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "This is a plugin for Obsidian to publish a note to a collection on write.as. Set your username and password in settings. Set `writeas_collection` as your alias in your frontmatter and publish!",
+	"author": "encima",
+	"authorUrl": "https://github.com/encima/obsidian-writeas-plugin",
 	"isDesktopOnly": false
 }
