@@ -1,6 +1,6 @@
 {
 	"name": "writeas-publisher",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "This is a plugin for Obsidian to publish to a collection on write.as. Set your username and password in settings. Set `writeas_collection` as your alias in your frontmatter and publish!",
 	"main": "main.js",
 	"scripts": {

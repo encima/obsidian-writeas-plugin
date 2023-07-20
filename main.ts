@@ -50,7 +50,7 @@ export default class WriteasPlugin extends Plugin {
 
 	async handleFile(file: TFile) {
 		let c = new WriteasClient(this.settings.writeasUser, this.settings.writeasPassword);
-		this.app.vault.read(file).then(async lines => {
+		this.app.vault.cachedRead(file).then(async lines => {
 			var content = this.app.metadataCache.getFileCache(file);
 			if (content?.frontmatter && content.frontmatter[COLL_KEY]) {
 				let coll = content.frontmatter[COLL_KEY]
@@ -71,12 +71,14 @@ export default class WriteasPlugin extends Plugin {
 					res = await c.updatePost(post_body, id)
 					if (res === undefined) {
 						new Notice("Failed to update post. Does it exist?")
+						return;
 					}
 					c.getPost(id);
 				} else {
 					res = await c.publishPost(post_body, content.frontmatter[COLL_KEY])
 					if (res === undefined) {
 						new Notice("Failed to publish, does the collection exist?")
+						return;
 					}
 					const keys: Record<string, string> = { 'writeas_url': res['url'].replace('http', 'https'), '_writeas_id': res['id'] }
 					this.updateFrontmatter(file, keys)
@@ -98,22 +100,6 @@ export default class WriteasPlugin extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
-	}
-}
-
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		const { contentEl } = this;
-		contentEl.setText('Woah!');
-	}
-
-	onClose() {
-		const { contentEl } = this;
-		contentEl.empty();
 	}
 }
 
