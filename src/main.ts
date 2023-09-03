@@ -1,6 +1,5 @@
-import { WriteasClient } from 'Writeas';
-import { App, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
-import { useFrontmatterHelper } from './Frontmatter';
+import { App, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
+import { WriteasClient } from './Writeas';
 
 interface WriteasPluginSettings {
 	writeasUser: string;
@@ -26,9 +25,9 @@ export default class WriteasPlugin extends Plugin {
 		await this.loadSettings();
 
 		this.addCommand({
-			id: 'open-sample-modal-simple',
-			name: 'Publish/update on write.as',
-			hotkeys: [{ modifiers: ["Alt", "Shift"], key: "p" }],
+			id: 'open-publish-simple',
+			name: 'Publish/update',
+			hotkeys: [],
 			callback: () => {
 				var file = this.app.workspace.getActiveFile()
 				if (file) {
@@ -42,11 +41,6 @@ export default class WriteasPlugin extends Plugin {
 
 	}
 
-	updateFrontmatter(file: TFile, keys: Record<string, string>) {
-		let fm = useFrontmatterHelper(app)
-		fm.setFrontmatterKeys(file, keys)
-	}
-
 
 	async handleFile(file: TFile) {
 		let c = new WriteasClient(this.settings.writeasUser, this.settings.writeasPassword);
@@ -54,7 +48,6 @@ export default class WriteasPlugin extends Plugin {
 			var content = this.app.metadataCache.getFileCache(file);
 			if (content?.frontmatter && content.frontmatter[COLL_KEY]) {
 				let coll = content.frontmatter[COLL_KEY]
-				console.log(coll);
 				await c.login();
 				// TODO check if collection is valid?
 				// TODO check if post exists and if collection it is in has changed
@@ -65,7 +58,7 @@ export default class WriteasPlugin extends Plugin {
 				// 	// return
 				// }
 				let post_body = { body: removeFrontMatter(lines), title: file.basename };
-				let res;
+				let res: { [x: string]: any; };
 				if (content.frontmatter['_writeas_id']) {
 					let id = content.frontmatter['_writeas_id'];
 					res = await c.updatePost(post_body, id)
@@ -80,8 +73,11 @@ export default class WriteasPlugin extends Plugin {
 						new Notice("Failed to publish, does the collection exist?")
 						return;
 					}
-					const keys: Record<string, string> = { 'writeas_url': res['url'].replace('http', 'https'), '_writeas_id': res['id'] }
-					this.updateFrontmatter(file, keys)
+					// const keys: Record<string, string> = { 'writeas_url': res['url'], '_writeas_id': res['id'] }
+					app.fileManager.processFrontMatter(file, (frontmatter) => {
+						frontmatter["writeas_url"] = res['url'];
+						frontmatter["_writeas_id"] = res['id'];
+					});
 				}
 
 			}
