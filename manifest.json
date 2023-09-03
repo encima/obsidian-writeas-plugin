@@ -1,9 +1,9 @@
 {
 	"id": "writeas-publisher",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"name": "Writeas Blog Publisher",
 	"minAppVersion": "0.15.0",
-	"description": "This is a plugin for Obsidian to publish a note to a collection on write.as. Set your username and password in settings. Set `writeas_collection` as your alias in your frontmatter and publish!",
+	"description": "Publish your notes to write.as",
 	"author": "encima",
 	"authorUrl": "https://github.com/encima/obsidian-writeas-plugin",
 	"isDesktopOnly": false

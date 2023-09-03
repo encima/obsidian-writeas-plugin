@@ -61,7 +61,6 @@ export class WriteasClient {
             return;
         }).then((resp) => {
             let res = resp?.json['data']
-            console.dir(res);
             return res;
         })
     }
@@ -80,7 +79,6 @@ export class WriteasClient {
             return;
         }).then((resp) => {
             let res = resp?.json['data']
-            console.dir(res);
             return res;
         })
     }
@@ -99,7 +97,6 @@ export class WriteasClient {
             return;
         }).then((resp) => {
             let res = resp?.json['data']
-            console.dir(res);
             return res;
         })
 
@@ -119,7 +116,6 @@ export class WriteasClient {
             return;
         }).then((resp) => {
             let res = resp?.json['data']
-            console.dir(res);
             return res;
         })
 

@@ -2,7 +2,7 @@
 
 ## What?
 
-An Obsidian plugin to publish posts to https://write.as.
+Publish notes to https://write.as.
 
 ## Disclosure
 
@@ -14,8 +14,9 @@ An Obsidian plugin to publish posts to https://write.as.
 1. Set your username and password in the plugin settings
 2. Add `writeas_collection` into your frontmatter, set it to a collection/blog
    that you own (this **must** be set)
-3. Run `Publish/update to writeas` (or use alt+shift+p)
-4. The plugin will add the ID and the post URL to your frontmatter. Subsequent publish commands will then update the same post.
+3. Run `Publish/update` (or use alt+shift+p)
+4. The plugin will add the ID and the post URL to your frontmatter. Subsequent
+   publish commands will then update the same post.
 
 ## API Documentation
 
