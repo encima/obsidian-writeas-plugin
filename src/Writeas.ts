@@ -7,16 +7,18 @@ export class WriteasClient {
 
     user: string;
     pass: string;
+    baseUrl: string;
     token: string;
 
-    constructor(user: string, pass: string) {
+    constructor(user: string, pass: string, baseUrl: string) {
         this.user = user;
         this.pass = pass;
+        this.baseUrl = baseUrl;
     }
 
     login() {
         return requestUrl({
-            url: "https://write.as/api/auth/login",
+            url: `${this.baseUrl}/api/auth/login`,
             body: JSON.stringify({ alias: this.user, pass: this.pass }),
             method: "POST",
             headers: {
@@ -33,7 +35,7 @@ export class WriteasClient {
 
     getCollections() {
         return requestUrl({
-            url: "https://write.as/api/me/collections",
+            url: `${this.baseUrl}/api/me/collections`,
             method: "GET",
             headers: {
                 "Content-Type": 'application/json',
@@ -50,7 +52,7 @@ export class WriteasClient {
 
     getPost(post_id: string) {
         return requestUrl({
-            url: `https://write.as/api/posts/${post_id}`,
+            url: `${this.baseUrl}/api/posts/${post_id}`,
             method: "GET",
             headers: {
                 "Content-Type": 'application/json',
@@ -67,7 +69,7 @@ export class WriteasClient {
 
     moveToCollection(collection: string, post_id: string) {
         return requestUrl({
-            url: `https://write.as/api/collections/${collection}/collect`,
+            url: `${this.baseUrl}/api/collections/${collection}/collect`,
             body: JSON.stringify([{ id: post_id }]),
             method: "POST",
             headers: {
@@ -85,7 +87,7 @@ export class WriteasClient {
 
     publishPost(body: any, collection: string) {
         return requestUrl({
-            url: `https://write.as/api/collections/${collection}/posts`,
+            url: `${this.baseUrl}/api/collections/${collection}/posts`,
             body: JSON.stringify(body),
             method: "POST",
             headers: {
@@ -104,7 +106,7 @@ export class WriteasClient {
 
     updatePost(body: any, post_id: string) {
         return requestUrl({
-            url: `https://write.as/api/posts/${post_id}`,
+            url: `${this.baseUrl}/api/posts/${post_id}`,
             body: JSON.stringify(body),
             method: "POST",
             headers: {

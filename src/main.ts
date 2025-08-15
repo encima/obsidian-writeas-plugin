@@ -4,11 +4,13 @@ import { WriteasClient } from './Writeas';
 interface WriteasPluginSettings {
 	writeasUser: string;
 	writeasPassword: string;
+	writeasServer: string;
 }
 
 const DEFAULT_SETTINGS: WriteasPluginSettings = {
 	writeasUser: 'default',
-	writeasPassword: 'default'
+	writeasPassword: 'default',
+	writeasServer: 'https://write.as'
 }
 
 const COLL_KEY = 'writeas_collection';
@@ -43,7 +45,7 @@ export default class WriteasPlugin extends Plugin {
 
 
 	async handleFile(file: TFile) {
-		let c = new WriteasClient(this.settings.writeasUser, this.settings.writeasPassword);
+		let c = new WriteasClient(this.settings.writeasUser, this.settings.writeasPassword, this.settings.writeasServer);
 		this.app.vault.cachedRead(file).then(async lines => {
 			var content = this.app.metadataCache.getFileCache(file);
 			if (content?.frontmatter && content.frontmatter[COLL_KEY]) {
@@ -122,6 +124,7 @@ class SettingTab extends PluginSettingTab {
 					this.plugin.settings.writeasUser = value;
 					await this.plugin.saveSettings();
 				}));
+
 		new Setting(containerEl)
 			.setName('Writeas Password')
 			.setDesc('')
@@ -130,6 +133,17 @@ class SettingTab extends PluginSettingTab {
 				.setValue(this.plugin.settings.writeasPassword)
 				.onChange(async (value) => {
 					this.plugin.settings.writeasPassword = value;
+					await this.plugin.saveSettings();
+				}));
+
+		new Setting(containerEl)
+			.setName('Writeas Server')
+			.setDesc('')
+			.addText(text => text
+				.setPlaceholder('Enter the URL of your WriteFreely server')
+				.setValue(this.plugin.settings.writeasServer)
+				.onChange(async (value) => {
+					this.plugin.settings.writeasServer = value;
 					await this.plugin.saveSettings();
 				}));
 	}
